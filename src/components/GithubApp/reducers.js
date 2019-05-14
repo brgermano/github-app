@@ -1,6 +1,6 @@
 import { GITHUB_APP_REQUEST, GITHUB_APP_SUCCESS, GITHUB_APP_FAILURE } from './actions';
 
-const app = (
+const githubapp = (
   state = {
     data: {},
     status: {
@@ -40,4 +40,4 @@ const app = (
       return state;
   }
 };
-export default app;
+export default githubapp;
