@@ -1,24 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import storage from 'redux-persist/lib/storage';
+import logger from 'redux-logger';
+import { persistStore, persistReducer } from 'redux-persist';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import sagas from './components/GithubApp/sagas';
+import reducers from './components/GithubApp/reducers';
+import GithubApp from './components/GithubApp';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: []
+};
+
+/* eslint-disable no-underscore-dangle */
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/* eslint-enable */
+
+const sagaMiddleware = createSagaMiddleware();
+const persistedReducer = persistReducer(persistConfig, reducers);
+const middlewares = [sagaMiddleware, logger];
+const store = createStore(persistedReducer, composeEnhancer(applyMiddleware(...middlewares)));
+sagaMiddleware.run(sagas);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" component={GithubApp} />
+          </Switch>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   );
 }
 
