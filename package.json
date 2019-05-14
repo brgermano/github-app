@@ -1,6 +1,7 @@
 {
   "name": "github-app",
   "version": "0.1.0",
+  "description": "GitHub-App",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
