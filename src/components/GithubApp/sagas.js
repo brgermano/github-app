@@ -1,17 +1,19 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
 import CallApi from '../CallApi';
 import { GITHUB_APP_REQUEST, GITHUB_APP_SUCCESS, GITHUB_APP_FAILURE } from './actions';
 
-export function* GithubRequestSaga(params) {
-  console.log('de boas na saga')
+function* UserDetailRequestSaga() {
   try {
-    const GithubCall = yield call(CallApi, 'get', '/users/brgermano');
-    console.log('data', GithubCall.data)
-    const GithubData = GithubCall ? GithubCall.data : false;
+    const userDetailRequest = yield call(CallApi, 'get', '/users/reactjs');
+    const userDetailData = userDetailRequest.data;
+
+    const userReposRequest = yield call(CallApi, 'get', '/users/reactjs/repos');
+    const userReposData = userReposRequest.data;
 
     yield put({
       type: GITHUB_APP_SUCCESS,
-      payload: GithubData
+      userDetailData,
+      userReposData
     });
   } catch (error) {
     yield put({
@@ -21,5 +23,5 @@ export function* GithubRequestSaga(params) {
 }
 
 export default function* GithubSaga() {
-  yield takeEvery(GITHUB_APP_REQUEST, GithubRequestSaga);
+  yield takeLatest(GITHUB_APP_REQUEST, UserDetailRequestSaga);
 }

@@ -2,7 +2,8 @@ import { GITHUB_APP_REQUEST, GITHUB_APP_SUCCESS, GITHUB_APP_FAILURE } from './ac
 
 const githubapp = (
   state = {
-    data: {},
+    userReposData: {},
+    userDetailData: {},
     status: {
       loading: false,
       failure: false
@@ -13,7 +14,8 @@ const githubapp = (
   switch (action.type) {
     case GITHUB_APP_REQUEST:
       return {
-        data: state.data,
+        userReposData: state.userReposData,
+        userDetailData: state.userDetailData,
         status: {
           loading: true,
           failure: false
@@ -21,7 +23,8 @@ const githubapp = (
       };
     case GITHUB_APP_SUCCESS: {
       return {
-        data: action.payload,
+        userReposData: action.userReposData,
+        userDetailData: action.userDetailData,
         status: {
           loading: false,
           failure: false
@@ -30,7 +33,8 @@ const githubapp = (
     }
     case GITHUB_APP_FAILURE:
       return {
-        data: state.data,
+        userReposData: state.userReposData,
+        userDetailData: state.userDetailData,
         status: {
           loading: false,
           failure: true
