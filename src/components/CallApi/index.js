@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../../../src/config.json';
+import config from '../../config.json';
 
 function* CallApi(method, endpoint, data, type, responsetype) {
   const { apiEndpoint } = config;
@@ -12,11 +12,13 @@ function* CallApi(method, endpoint, data, type, responsetype) {
   const call = yield axios(`${apiEndpoint}${endpoint}`, {
     method,
     data: contentType === 'application/json' ? bodyRequest : formData,
+    /* eslint-disable comma-dangle */
     headers: {
       Accept: 'application/json',
       'Content-Type': `${contentType}`,
     },
     responseType
+    /* eslint-enable */
   })
     .then(response => response)
     .catch(e => e);

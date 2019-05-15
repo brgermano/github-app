@@ -11,11 +11,12 @@ import sagas from './sagas';
 import rootReducer from './reducers';
 import GithubApp from './components/GithubApp';
 
+/* eslint-disable comma-dangle */
 const persistConfig = {
   key: 'root',
-  storage,
-  whitelist: []
+  storage
 };
+/* eslint-enable */
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

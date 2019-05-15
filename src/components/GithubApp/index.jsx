@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty, uniqueId } from 'lodash';
 import { GitHubAppRequestAction } from './actions';
@@ -9,8 +10,18 @@ class GithubApp extends Component {
   }
 
   render() {
-    const { userDetailData: { name, bio, blog, company, avatar_url: avatarUrl, html_url: profileUrl }, userRepos } = this.props;
-    console.log('props', this.props)
+    const { 
+      userDetailData: 
+      { 
+        name, 
+        bio, 
+        blog, 
+        company, 
+        avatar_url: avatarUrl, 
+        html_url: profileUrl 
+      }, userRepos 
+    } = this.props;
+
     return (
       <div className="row user-detail">
         <div className="col s3">
@@ -84,3 +95,15 @@ export default connect(
   }),
   { GitHubAppRequestAction }
 )(GithubApp);
+
+GithubApp.propTypes = {
+  GitHubAppRequestAction: PropTypes.func,
+  userRepos: PropTypes.shape,
+  userDetailData: PropTypes.shape
+};
+
+GitHubAppRequestAction.defaultProps = {
+  GitHubAppRequestAction: () => {},
+  userRepos: {},
+  userDetailData: {}
+};
