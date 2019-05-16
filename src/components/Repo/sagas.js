@@ -6,19 +6,22 @@ function* RepoRequestSaga(params) {
   const { params: repoName, requestType, finalSearchTerm } = params;
 
   try {
-    const RepoRequest = requestType === 'get' ? 
-    yield call(CallApi, 'get', `/repos/reactjs/${repoName}/commits`) 
-    : yield call(CallApi, 'get', `/search/commits?q=repo:reactjs/${repoName}&q=${finalSearchTerm}+message`);
+    const RepoRequest = requestType === 'get'
+      ? yield call(CallApi, 'get', `/repos/reactjs/${repoName}/commits`)
+      : yield call(CallApi, 'get', `/search/commits?q=repo:reactjs/${repoName}&q=${finalSearchTerm}+message`);
 
-    const RepoData = requestType === 'get' ? 
-    RepoRequest.data.slice(0, 20)
-    : RepoRequest.data.items.slice(0, 20);
+    const RepoData = requestType === 'get'
+      ? RepoRequest.data.slice(0, 20)
+      : RepoRequest.data.items.slice(0, 20);
 
     const commitDetails = RepoData.map(
-      commitDetails => (
-        { commitMessage: commitDetails.commit.message, 
-          authorName: commitDetails.commit.author.name, 
-          authorEmail: commitDetails.commit.author.email }));
+      commitField => (
+        {
+          commitMessage: commitField.commit.message,
+          authorName: commitField.commit.author.name,
+          authorEmail: commitField.commit.author.email
+        })
+    );
 
     yield put({
       type: REPO_SUCCESS,
