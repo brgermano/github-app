@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { uniqueId, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { RepoRequestAction } from './actions';
 import { Link } from 'react-router-dom';
 
