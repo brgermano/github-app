@@ -3,10 +3,6 @@
 
 GitHub-App is a client project to listing reactjs user repositories and view/search last commits.
 
-## Hosted
-
-It is hosted on []()
-
 ## Build
 
 After `git clone`, run the command below to build the project.
@@ -23,3 +19,6 @@ After build process, to start initializing a server, run the command below.
 yarn start
 ```
 
+## Search Component
+
+If the search is returning many values try unusual terms like "inCommit"

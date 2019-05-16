@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { RepoRequestAction } from './actions';
@@ -101,3 +101,13 @@ export default connect(
   }),
   { RepoRequestAction }
 )(Repo);
+
+Repo.propTypes = {
+  RepoRequestAction: PropTypes.func,
+  repoDetails: PropTypes.arrayOf(PropTypes.shape)
+}
+
+Repo.propTypes = {
+  RepoRequestAction: () => {},
+  repoDetails: []
+}
