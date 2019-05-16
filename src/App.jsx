@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import sagas from './sagas';
 import rootReducer from './reducers';
 import GithubApp from './components/GithubApp';
+import Repo from './components/Repo';
 
 /* eslint-disable comma-dangle */
 const persistConfig = {
@@ -34,7 +35,8 @@ function App() {
       <PersistGate loading={null} persistor={persistStore(store)}>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={GithubApp} />
+            <Route exact path="/" component={GithubApp} />
+            <Route exact path="/Repo" component={Repo} />
           </Switch>
         </BrowserRouter>
       </PersistGate>
