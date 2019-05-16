@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 import { RepoRequestAction } from './actions';
 import { Link } from 'react-router-dom';
 
@@ -72,7 +72,7 @@ class Repo extends Component {
               <ul className="collection">
                   {!isEmpty(repoDetails) ?
                     repoDetails.map(commits => (
-                      <li className="collection-item">
+                      <li key={uniqueId('collection-commit-')} className="collection-item">
                         <h6>{commits.commitMessage.length > 200 ?
                               `${commits.commitMessage.substring(0, 200)}[...]`
                               : commits.commitMessage}
