@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { uniqueId } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 import { RepoRequestAction } from './actions';
 import { Link } from 'react-router-dom';
 
@@ -33,6 +33,7 @@ class Repo extends Component {
 
   render() {
     const { repoDetails, status } = this.props;
+    console.log('aaa', repoDetails)
     const { params: repoName } = this.props.location;
     return (
       <>
@@ -71,19 +72,21 @@ class Repo extends Component {
             <div className="col s12">
               <h5>Últimos commits do repositório: {repoName}</h5>
               <ul className="collection">
-                  {repoDetails.map(commits => (
-                    <>
-                      <li key={uniqueId('collection-commits-items-')} className="collection-item">
-                        <h6>{commits.commitMessage.length > 200 ?
-                              `${commits.commitMessage.substring(0, 200)}[...]`
-                              : commits.commitMessage}
-                        </h6>
-                        <b>Author:</b> {commits.authorName}
-                        <br />
-                        <b>Email:</b> {commits.authorEmail}
-                      </li>
-                    </>
-                  ))}
+                  {!isEmpty(repoDetails) ?
+                    repoDetails.map(commits => (
+                      <>
+                        <li key={uniqueId('collection-commits-items-')} className="collection-item">
+                          <h6>{commits.commitMessage.length > 200 ?
+                                `${commits.commitMessage.substring(0, 200)}[...]`
+                                : commits.commitMessage}
+                          </h6>
+                          <b>Author:</b> {commits.authorName}
+                          <br />
+                          <b>Email:</b> {commits.authorEmail}
+                        </li>
+                      </>
+                    ))
+                  : ''}
               </ul>
             </div>
           </div>
@@ -103,11 +106,11 @@ export default connect(
 )(Repo);
 
 Repo.propTypes = {
-  RepoRequestAction: PropTypes.func,
-  repoDetails: PropTypes.arrayOf(PropTypes.shape)
+  RepoRequestAction: PropTypes.func
+  //repoDetails: PropTypes.arrayOf(PropTypes.shape)
 }
 
 Repo.propTypes = {
-  RepoRequestAction: () => {},
-  repoDetails: []
+  RepoRequestAction: () => {}
+  //repoDetails: []
 }
