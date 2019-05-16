@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { uniqueId, isEmpty } from 'lodash';
 import { RepoRequestAction } from './actions';
@@ -33,7 +32,6 @@ class Repo extends Component {
 
   render() {
     const { repoDetails, status } = this.props;
-    console.log('aaa', repoDetails)
     const { params: repoName } = this.props.location;
     return (
       <>
@@ -74,17 +72,15 @@ class Repo extends Component {
               <ul className="collection">
                   {!isEmpty(repoDetails) ?
                     repoDetails.map(commits => (
-                      <>
-                        <li key={uniqueId('collection-commits-items-')} className="collection-item">
-                          <h6>{commits.commitMessage.length > 200 ?
-                                `${commits.commitMessage.substring(0, 200)}[...]`
-                                : commits.commitMessage}
-                          </h6>
-                          <b>Author:</b> {commits.authorName}
-                          <br />
-                          <b>Email:</b> {commits.authorEmail}
-                        </li>
-                      </>
+                      <li className="collection-item">
+                        <h6>{commits.commitMessage.length > 200 ?
+                              `${commits.commitMessage.substring(0, 200)}[...]`
+                              : commits.commitMessage}
+                        </h6>
+                        <b>Author:</b> {commits.authorName}
+                        <br />
+                        <b>Email:</b> {commits.authorEmail}
+                      </li>
                     ))
                   : ''}
               </ul>
@@ -104,13 +100,3 @@ export default connect(
   }),
   { RepoRequestAction }
 )(Repo);
-
-Repo.propTypes = {
-  RepoRequestAction: PropTypes.func
-  //repoDetails: PropTypes.arrayOf(PropTypes.shape)
-}
-
-Repo.propTypes = {
-  RepoRequestAction: () => {}
-  //repoDetails: []
-}
