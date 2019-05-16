@@ -3,11 +3,17 @@ import CallApi from '../CallApi';
 import { REPO_REQUEST, REPO_SUCCESS, REPO_FAILURE } from './actions';
 
 function* RepoRequestSaga(params) {
-  const { params: repoName } = params;
+  const { params: repoName, requestType, finalSearchTerm } = params;
 
   try {
-    const RepoRequest = yield call(CallApi, 'get', `/repos/reactjs/${repoName}/commits`);
-    const RepoData = RepoRequest.data.slice(0, 20);
+    const RepoRequest = requestType === 'get' ? 
+    yield call(CallApi, 'get', `/repos/reactjs/${repoName}/commits`) 
+    : yield call(CallApi, 'get', `/search/commits?q=repo:reactjs/${repoName}&q=${finalSearchTerm}+message`);
+
+    const RepoData = requestType === 'get' ? 
+    RepoRequest.data.slice(0, 20)
+    : RepoRequest.data.items.slice(0, 20);
+
     const commitDetails = RepoData.map(
       commitDetails => (
         { commitMessage: commitDetails.commit.message, 
